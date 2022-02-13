@@ -1,49 +1,63 @@
 package com.turtywurty.cat
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Base64
+import android.text.InputFilter
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.Response
+import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.squareup.picasso.Picasso
-import org.json.JSONException
+import org.json.JSONArray
 import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var catAdapter: CatAdapter
+    val url : String = "https://cataas.com/cat?json=true"
+
+    fun JSONArray.toMuteableList(): MutableList<JSONObject> = MutableList(length(), this::getJSONObject)
+
+    fun getCatUrl(){
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val btnCat: Button = findViewById<Button>(R.id.btnCat)
-        val imgCat: ImageView = findViewById<ImageView>(R.id.imgCat)
+        val rvCatPics : RecyclerView = findViewById<RecyclerView>(R.id.rvCatPics)
+        catAdapter = CatAdapter(mutableListOf())
+
+        rvCatPics.adapter = catAdapter
+        rvCatPics.layoutManager = LinearLayoutManager(this)
 
         btnCat.setOnClickListener {
+
             val queue = Volley.newRequestQueue(this)
-            val url : String = "https://cataas.com/cat?json=true"
-            var outJson : String = ""
             val stringRequest = StringRequest(
                 Request.Method.GET, url,
                 Response.Listener<String> { response ->
-                   println(response)
-                    outJson = response
-                    var reader : JSONObject  = JSONObject(outJson)
-                    println(reader.toString(1))
+//                println(response)
+                    var reader : JSONObject  = JSONObject(response)
+//                println(reader.toString(1))
                     var catpicUrl : String  = "https://cataas.com${reader.getString("url")}"
-                    Picasso.get().load(catpicUrl).into(imgCat);
+                    println(catpicUrl)
+                    var tags = JSONArray(reader.getString("tags"))
+
+                    var tagsList = mutableListOf<String>()
+                    for (i in 0 until tags.length()) {
+                        tagsList.add(tags[i].toString())
+                    }
+                    println(tagsList.toString())
+                    val cat = Cat(catpicUrl, tagsList)
+                    catAdapter.addCat(cat)
                 },
                 Response.ErrorListener { return@ErrorListener })
-
             queue.add(stringRequest)
-
-
-
         }
     }
 
