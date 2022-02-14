@@ -1,14 +1,12 @@
 package com.turtywurty.cat
 
 import android.os.Bundle
-import android.text.InputFilter
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONArray
@@ -18,6 +16,8 @@ import org.json.JSONObject
 class MainActivity : AppCompatActivity() {
     private lateinit var catAdapter: CatAdapter
     val url : String = "https://cataas.com/cat?json=true"
+    var cats : MutableList<Cat> = mutableListOf<Cat>()
+
 
     fun JSONArray.toMuteableList(): MutableList<JSONObject> = MutableList(length(), this::getJSONObject)
 
@@ -27,12 +27,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         val btnCat: Button = findViewById<Button>(R.id.btnCat)
         val rvCatPics : RecyclerView = findViewById<RecyclerView>(R.id.rvCatPics)
-        catAdapter = CatAdapter(mutableListOf())
-
+        catAdapter = CatAdapter(this,mutableListOf())
+        catAdapter.setCatsList(cats);
         rvCatPics.adapter = catAdapter
+
         rvCatPics.layoutManager = LinearLayoutManager(this)
 
         btnCat.setOnClickListener {
@@ -55,11 +57,20 @@ class MainActivity : AppCompatActivity() {
                     println(tagsList.toString())
                     val cat = Cat(catpicUrl, tagsList)
                     catAdapter.addCat(cat)
+                    cats.add(cat)
                 },
                 Response.ErrorListener { return@ErrorListener })
             queue.add(stringRequest)
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        catAdapter.setCatsList(cats)
+    }
+    override fun onDestroy() {
+        //cats = catAdapter.getCatList()
+        super.onDestroy()
+    }
 
 }
