@@ -19,5 +19,12 @@ class CatDetailsActivity : AppCompatActivity() {
         val tags = findViewById<TextView>(R.id.tvTagsDetail).apply {
             text = catTags
         }
+
+
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
     }
 }
