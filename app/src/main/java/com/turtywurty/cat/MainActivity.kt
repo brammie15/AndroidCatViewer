@@ -64,13 +64,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        catAdapter.setCatsList(cats)
-    }
-    override fun onDestroy() {
-        //cats = catAdapter.getCatList()
-        super.onDestroy()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        catAdapter.setCatsList(cats)
+//    }
+    
 
 }
