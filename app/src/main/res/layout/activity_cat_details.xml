@@ -14,8 +14,29 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toTopOf="@+id/imgcatdetail"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/backbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btnback"
+            android:foreground="?android:attr/selectableItemBackground"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+        <ImageButton
+            android:id="@+id/btnoptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/vaoptions"
+            android:foreground="?android:attr/selectableItemBackground"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="16dp" />
+    </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:id="@+id/tvTagsDetail"
@@ -51,4 +72,3 @@
         app:srcCompat="@drawable/sex"></ImageView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
