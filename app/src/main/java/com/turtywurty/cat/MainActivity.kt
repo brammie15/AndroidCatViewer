@@ -35,6 +35,10 @@ class MainActivity : AppCompatActivity() {
         catAdapter.setCatsList(cats);
         rvCatPics.adapter = catAdapter
 
+        findViewById<Button>(R.id.noah).setOnClickListener {
+            findViewById<Button>(R.id.noah).text = "Super Duper Geil"
+        }
+
         rvCatPics.layoutManager = LinearLayoutManager(this)
 
         btnCat.setOnClickListener {
