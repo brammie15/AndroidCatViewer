@@ -21,9 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     fun JSONArray.toMuteableList(): MutableList<JSONObject> = MutableList(length(), this::getJSONObject)
 
-    fun getCatUrl(){
 
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +33,7 @@ class MainActivity : AppCompatActivity() {
         catAdapter.setCatsList(cats);
         rvCatPics.adapter = catAdapter
 
-        findViewById<Button>(R.id.noah).setOnClickListener {
-            findViewById<Button>(R.id.noah).text = "Super Duper Geil"
-        }
+
 
         rvCatPics.layoutManager = LinearLayoutManager(this)
 
@@ -61,17 +57,11 @@ class MainActivity : AppCompatActivity() {
                     println(tagsList.toString())
                     val cat = Cat(catpicUrl, tagsList)
                     catAdapter.addCat(cat)
-                    cats.add(cat)
+
                 },
                 Response.ErrorListener { return@ErrorListener })
             queue.add(stringRequest)
         }
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        catAdapter.setCatsList(cats)
-//    }
-    
 
 }
